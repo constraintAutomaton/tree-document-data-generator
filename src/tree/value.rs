@@ -1,7 +1,6 @@
 use std::fmt;
 
-
-/// Description of the value of [`Relation`]
+/// Description of the value of [Relation](`super::relation::Relation`)
 #[derive(Clone)]
 pub struct Value {
     /// Raw value as presented in RDF.
