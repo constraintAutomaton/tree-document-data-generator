@@ -1,3 +1,3 @@
 pub mod relation;
-pub mod schal_path;
+pub mod shacl_path;
 pub mod node;
