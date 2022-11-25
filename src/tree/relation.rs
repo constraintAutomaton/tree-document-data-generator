@@ -1,8 +1,12 @@
 use super::shacl_path::ShaclPath;
 use super::value::Value;
-pub struct Relation{
-    pub remaning_items: Option<i32>,
-    pub path: Option<ShaclPath>,
-    pub value: Option<Value>,
-    pub node: String,
+use derive_new;
+use derive_getters;
+
+#[derive(derive_new::new, Clone, derive_getters::Getters)]
+pub struct Relation {
+    remaning_items: Option<i32>,
+    path: Option<ShaclPath>,
+    value: Option<Value>,
+    node: String,
 }

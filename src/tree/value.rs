@@ -1,10 +1,12 @@
 use std::fmt;
 
+#[derive(Clone)]
 pub struct Value {
     pub value: String,
     pub value_type: ValueType,
 }
 
+#[derive(Clone)]
 pub enum ValueType {
     Integer,
     Decimal,
