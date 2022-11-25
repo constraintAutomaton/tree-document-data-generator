@@ -1,12 +1,17 @@
 use std::fmt;
 
+
+/// Description of the value of [`Relation`]
 #[derive(Clone)]
 pub struct Value {
+    /// Raw value as presented in RDF.
     pub value: String,
+    /// Data type.
     pub value_type: ValueType,
 }
 
 #[derive(Clone)]
+/// Supported operand data type by [SPARQL](https://www.w3.org/TR/sparql11-query/#operandDataTypes)
 pub enum ValueType {
     Integer,
     Decimal,
