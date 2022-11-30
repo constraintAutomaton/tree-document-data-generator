@@ -9,4 +9,5 @@ pub trait RangeParameter<T> {
 /// Argument necessary to generate a TREE document at the user request.
 pub struct Args<T> {
     pub relation: RelationGeneratorArg<T>,
+    pub first_node_url: String,
 }
