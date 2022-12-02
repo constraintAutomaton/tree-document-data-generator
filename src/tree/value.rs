@@ -9,7 +9,7 @@ pub struct Value {
     pub value_type: ValueType,
 }
 
-#[derive(Clone)]
+#[derive(Copy, Clone)]
 /// Supported operand data type by [SPARQL](https://www.w3.org/TR/sparql11-query/#operandDataTypes)
 pub enum ValueType {
     Integer,
