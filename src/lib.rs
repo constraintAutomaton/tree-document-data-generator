@@ -19,7 +19,7 @@ pub fn generate_tree_document<T: num::ToPrimitive + Debug>(args: &Args<T>) -> Ve
     tree_document
 }
 /// convert a number to [SPARQL](https://www.w3.org/TR/sparql11-query/#operandDataTypes) number compatible operand
-pub(self) fn convert_number_to_sparql_string<T: num::ToPrimitive + Debug>(
+pub fn convert_number_to_sparql_string<T: num::ToPrimitive + Debug>(
     number_value: T,
     value_type: ValueType,
 ) -> Result<String, &'static str> {
