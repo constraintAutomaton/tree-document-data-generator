@@ -1,6 +1,9 @@
 use super::RangeParameter;
 use crate::tree::relation::Relation;
+use crate::tree::relation_operator::RelationOperator;
+use crate::tree::shacl_path::ShaclPath;
 use crate::tree::value::ValueType;
+
 use std::vec::Vec;
 
 /// The type of TREE relation generator.
@@ -14,7 +17,7 @@ pub enum RelationGeneratorArg<T> {
 
 pub struct TemplateRangeVariationRelation<T> {
     /// template of the [`Relation`].
-    pub template: Relation,
+    pub template: RelationTemplate,
     /// range of the selected property.
     pub range: Box<dyn RangeParameter<T>>,
     /// distribution of  the [`Relation`] inside the [Node](`crate::tree:node::Node`).
@@ -29,4 +32,12 @@ pub enum DistributionOfRelation {
     Direct(Vec<usize>),
     /// Set a random number of relation using a [`RangeParameter`] with a number of node.
     Random(Box<dyn RangeParameter<usize>>, usize),
+}
+
+/// The template of a relation
+pub struct RelationTemplate {
+    /// A property path, as defined by SHACL, that indicates what resource the tree:value affects.
+    pub path: ShaclPath,
+    /// The type of the relationship.
+    pub relation_type: RelationOperator,
 }

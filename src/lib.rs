@@ -1,5 +1,5 @@
-mod generate_relation;
 pub mod generator_argument;
+pub mod generate_relation;
 pub mod tree;
 
 use self::generate_relation::generate_relations;

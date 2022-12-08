@@ -65,6 +65,6 @@ impl fmt::Display for ValueType {
             }
         };
 
-        write!(f, "Circle of radius {}", string_representation)
+        write!(f, "{}", string_representation)
     }
 }

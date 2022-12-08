@@ -1,4 +1,5 @@
 use super::shacl_path::ShaclPath;
+use super::relation_operator::RelationOperator;
 use super::value::Value;
 use derive_getters;
 use derive_new;
@@ -14,4 +15,6 @@ pub struct Relation {
     value: Option<Value>,
     /// Link to the TREE node document for this relationship.
     node: String,
+    /// The type of the relationship.
+    relation_type: Option<RelationOperator>,
 }

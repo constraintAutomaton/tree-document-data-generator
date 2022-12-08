@@ -1,6 +1,7 @@
 use super::convert_number_to_sparql_string;
 use super::generator_argument::relation_argument::{
     DistributionOfRelation, RelationGeneratorArg, TemplateRangeVariationRelation,
+    RelationTemplate
 };
 use super::generator_argument::RangeParameter;
 use super::tree::relation::Relation;
@@ -69,7 +70,7 @@ fn generate_relations_from_template<T: num::ToPrimitive + Debug>(
 /// Helper function to avoid repetition to generate n relation from a template
 fn generate_n_relation_from_a_template<T: num::ToPrimitive + Debug>(
     n: usize,
-    template_relation: &Relation,
+    template_relation: &RelationTemplate,
     base_url: &String,
     value_type: ValueType,
     range_value_fn: &Box<dyn RangeParameter<T>>,
@@ -91,7 +92,7 @@ fn generate_n_relation_from_a_template<T: num::ToPrimitive + Debug>(
 
 /// Generate the single relation from the template and the [range generator](`RangeParameter`)
 fn generate_a_relation_from_template<T: num::ToPrimitive + Debug>(
-    template_relation: &Relation,
+    template_relation: &RelationTemplate,
     base_url: &String,
     value_type: ValueType,
     range_value_fn: &Box<dyn RangeParameter<T>>,
@@ -112,8 +113,9 @@ fn generate_a_relation_from_template<T: num::ToPrimitive + Debug>(
 
     Ok(Relation::new(
         None,
-        template_relation.path().clone(),
+        Some(template_relation.path.clone()),
         Some(relation_value),
         node_url,
+        Some(template_relation.relation_type.clone())
     ))
 }
