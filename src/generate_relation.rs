@@ -178,7 +178,7 @@ mod tests_generate_a_relation_from_template {
     #[test]
     fn should_not_return_the_same_url() {
         let value_type = ValueType::Int;
-        let mut usedUrl: HashSet<String> = HashSet::new();
+        let mut used_url: HashSet<String> = HashSet::new();
 
         for i in 0..100 {
             let relation = generate_a_relation_from_template(
@@ -189,8 +189,8 @@ mod tests_generate_a_relation_from_template {
                 &MockSparqlConverter { success: true },
             )
             .unwrap();
-            assert!(usedUrl.get(relation.node()).is_none());
-            usedUrl.insert(relation.node().clone());
+            assert!(used_url.get(relation.node()).is_none());
+            used_url.insert(relation.node().clone());
         }
     }
 }
@@ -378,8 +378,8 @@ pub struct MockSparqlConverter {
 
 #[cfg(test)]
 impl<T> SparqlConverter<T> for MockSparqlConverter {
-    fn convert(&self, number_value: T, value_type: ValueType) -> Result<String, &'static str> {
-        if (self.success) {
+    fn convert(&self, _number_value: T, _value_type: ValueType) -> Result<String, &'static str> {
+        if self.success {
             Ok(String::from("valid"))
         } else {
             Err("defeat")
