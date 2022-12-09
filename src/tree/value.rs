@@ -1,7 +1,7 @@
 use std::fmt;
 
 /// Description of the value of [Relation](`super::relation::Relation`)
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Value {
     /// Raw value as presented in RDF.
     pub value: String,
@@ -9,7 +9,7 @@ pub struct Value {
     pub value_type: ValueType,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 /// Supported operand data type by [SPARQL](https://www.w3.org/TR/sparql11-query/#operandDataTypes)
 pub enum ValueType {
     Integer,

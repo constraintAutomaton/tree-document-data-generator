@@ -1,6 +1,6 @@
 use std::fmt;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Debug)]
 /// The type of the relationship.
 /// https://treecg.github.io/specification/#vocabulary
 pub enum RelationOperator {

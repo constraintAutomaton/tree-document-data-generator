@@ -1,7 +1,6 @@
 use super::convert_number_to_sparql_string;
 use super::generator_argument::relation_argument::{
-    DistributionOfRelation, RelationGeneratorArg, TemplateRangeVariationRelation,
-    RelationTemplate
+    DistributionOfRelation, RelationGeneratorArg, RelationTemplate, TemplateRangeVariationRelation,
 };
 use super::generator_argument::RangeParameter;
 use super::tree::relation::Relation;
@@ -39,7 +38,7 @@ fn generate_relations_from_template<T: num::ToPrimitive + Debug>(
                     &template.template,
                     &base_url,
                     template.value_type,
-                    &template.range,
+                    template.range.as_ref(),
                 ) {
                     Ok(v) => relations.push(v),
                     Err(e) => return Err(e),
@@ -56,7 +55,7 @@ fn generate_relations_from_template<T: num::ToPrimitive + Debug>(
                     &template.template,
                     &base_url,
                     template.value_type,
-                    &template.range,
+                    template.range.as_ref(),
                 ) {
                     Ok(v) => relations.push(v),
                     Err(e) => return Err(e),
@@ -73,7 +72,7 @@ fn generate_n_relation_from_a_template<T: num::ToPrimitive + Debug>(
     template_relation: &RelationTemplate,
     base_url: &String,
     value_type: ValueType,
-    range_value_fn: &Box<dyn RangeParameter<T>>,
+    range_value_fn: &dyn RangeParameter<T>,
 ) -> Result<Vec<Relation>, &'static str> {
     let mut current_relation: Vec<Relation> = Vec::new();
     for _ in 0..n {
@@ -95,7 +94,7 @@ fn generate_a_relation_from_template<T: num::ToPrimitive + Debug>(
     template_relation: &RelationTemplate,
     base_url: &String,
     value_type: ValueType,
-    range_value_fn: &Box<dyn RangeParameter<T>>,
+    range_value_fn: &dyn RangeParameter<T>,
 ) -> Result<Relation, &'static str> {
     let value = range_value_fn.next();
     let relation_value = match convert_number_to_sparql_string(value, value_type) {
@@ -116,6 +115,87 @@ fn generate_a_relation_from_template<T: num::ToPrimitive + Debug>(
         Some(template_relation.path.clone()),
         Some(relation_value),
         node_url,
-        Some(template_relation.relation_type.clone())
+        Some(template_relation.relation_type.clone()),
     ))
+}
+#[cfg(test)]
+mod tests_generate_a_relation_from_template {
+    use crate::generator_argument::relation_argument::RelationTemplate;
+    use crate::tree::relation_operator::RelationOperator;
+    use crate::tree::shacl_path::ShaclPath;
+    use crate::tree::value::ValueType;
+    use lazy_static::lazy_static;
+    use std::collections::HashSet;
+
+    use super::generate_a_relation_from_template;
+    use super::MockRangeGenerator;
+
+    lazy_static! {
+        static ref A_PATH: ShaclPath = String::from("ex:path");
+        static ref A_RELATION_TYPE: RelationOperator = RelationOperator::EqualThanRelation;
+        static ref A_TEMPLATE_RELATION: RelationTemplate = RelationTemplate {
+            path: A_PATH.clone(),
+            relation_type: A_RELATION_TYPE.clone()
+        };
+        static ref A_BASE_URL: String = String::from("https://example.com");
+    }
+    #[test]
+    fn should_return_the_right_relation_given_a_valid_value_type() {
+        let value_type = ValueType::Int;
+        let relation = generate_a_relation_from_template(
+            &A_TEMPLATE_RELATION,
+            &A_BASE_URL,
+            value_type,
+            &MockRangeGenerator { val: 8 },
+        )
+        .unwrap();
+
+        assert_eq!(*relation.remaning_items(), None);
+        assert_eq!(*relation.path(), Some(A_PATH.clone()));
+        assert_eq!(*relation.relation_type(), Some(A_RELATION_TYPE.clone()));
+    }
+
+    #[test]
+    fn should_return_an_error_when_the_value_type_is_incompatible_with_the_value_type() {
+        let value_type = ValueType::Boolean;
+        generate_a_relation_from_template(
+            &A_TEMPLATE_RELATION,
+            &A_BASE_URL,
+            value_type,
+            &MockRangeGenerator { val: 8 },
+        )
+        .expect_err(
+            "should return an error when the type is not compatible with the generator value",
+        );
+    }
+
+    #[test]
+    fn should_not_return_the_same_url() {
+        let value_type = ValueType::Int;
+        let mut usedUrl: HashSet<String> = HashSet::new();
+
+        for i in 0..100 {
+            let relation = generate_a_relation_from_template(
+                &A_TEMPLATE_RELATION,
+                &A_BASE_URL,
+                value_type,
+                &MockRangeGenerator { val: i },
+            )
+            .unwrap();
+            assert!(usedUrl.get(relation.node()).is_none());
+            usedUrl.insert(relation.node().clone());
+        }
+    }
+}
+
+#[cfg(test)]
+pub struct MockRangeGenerator<T> {
+    pub val: T,
+}
+
+#[cfg(test)]
+impl<T: Clone> RangeParameter<T> for MockRangeGenerator<T> {
+    fn next(&self) -> T {
+        self.val.clone()
+    }
 }
