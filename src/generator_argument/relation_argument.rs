@@ -34,6 +34,7 @@ pub enum DistributionOfRelation {
     Random(Box<dyn RangeParameter<usize>>, usize),
 }
 
+#[derive(Clone)]
 /// The template of a relation
 pub struct RelationTemplate {
     /// A property path, as defined by SHACL, that indicates what resource the tree:value affects.
