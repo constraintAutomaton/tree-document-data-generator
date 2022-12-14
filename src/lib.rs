@@ -1,7 +1,9 @@
-pub mod generate_relation;
+mod generate_relation;
 pub mod generator_argument;
 pub mod sparql_converter;
+mod tests;
 pub mod tree;
+
 use self::generate_relation::generate_relations;
 use generator_argument::Args;
 use num;

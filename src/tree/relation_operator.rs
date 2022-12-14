@@ -1,6 +1,6 @@
 use std::fmt;
 
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 /// The type of the relationship.
 /// https://treecg.github.io/specification/#vocabulary
 pub enum RelationOperator {
@@ -30,19 +30,27 @@ pub enum RelationOperator {
     GeospatiallyContainsRelation,
 }
 
-impl fmt::Display for RelationOperator{
+impl fmt::Display for RelationOperator {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let string_representation: &str = {
-            match  self {
+            match self {
                 RelationOperator::PrefixRelation => "https://w3id.org/tree#PrefixRelation",
                 RelationOperator::SubstringRelation => "https://w3id.org/tree#SubstringRelation",
                 RelationOperator::SuffixRelation => "https://w3id.org/tree#SuffixRelation",
-                RelationOperator::GreaterThanRelation => "https://w3id.org/tree#GreaterThanRelation",
-                RelationOperator::GreaterThanOrEqualToRelation => "https://w3id.org/tree#GreaterThanOrEqualToRelation",
+                RelationOperator::GreaterThanRelation => {
+                    "https://w3id.org/tree#GreaterThanRelation"
+                }
+                RelationOperator::GreaterThanOrEqualToRelation => {
+                    "https://w3id.org/tree#GreaterThanOrEqualToRelation"
+                }
                 RelationOperator::LessThanRelation => "https://w3id.org/tree#LessThanRelation",
-                RelationOperator::LessThanOrEqualToRelation => "https://w3id.org/tree#LessThanOrEqualToRelation",
+                RelationOperator::LessThanOrEqualToRelation => {
+                    "https://w3id.org/tree#LessThanOrEqualToRelation"
+                }
                 RelationOperator::EqualThanRelation => "https://w3id.org/tree#EqualThanRelation",
-                RelationOperator::GeospatiallyContainsRelation => "https://w3id.org/tree#GeospatiallyContainsRelation"
+                RelationOperator::GeospatiallyContainsRelation => {
+                    "https://w3id.org/tree#GeospatiallyContainsRelation"
+                }
             }
         };
         write!(f, "{}", string_representation)

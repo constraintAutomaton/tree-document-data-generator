@@ -1,15 +1,22 @@
 use super::RangeParameter;
 use rand::{distributions::uniform::SampleUniform, prelude::*};
-use derive_new;
 use std::cmp::PartialOrd;
 
 /// Generator of random number with a upper and lower bound.
-#[derive(derive_new::new)]
 pub struct RandomBoundedNumberRange<T: SampleUniform + PartialOrd + Copy> {
     /// Lower bound.
     lower: T,
     /// Upper bound.
     upper: T,
+}
+
+impl<T: SampleUniform + PartialOrd + Copy>  RandomBoundedNumberRange<T>{
+    pub fn new(lower:T, upper:T)->Self{
+        if lower>upper{
+            panic!(" \"lower\" variable should be lower or equal to \"upper\" variable");
+        }
+        RandomBoundedNumberRange { lower: lower, upper: upper }
+    }
 }
 
 impl<T: SampleUniform + PartialOrd + Copy> RangeParameter<T>

@@ -132,14 +132,14 @@ mod tests {
         use crate::tree::relation_operator::RelationOperator;
         use crate::tree::shacl_path::ShaclPath;
         use crate::tree::value::ValueType;
-        use lazy_static::lazy_static;
+        use lazy_static;
         use std::collections::HashSet;
 
         use super::super::generate_a_relation_from_template;
         use super::MockRangeGenerator;
         use super::MockSparqlConverter;
 
-        lazy_static! {
+        lazy_static::lazy_static! {
             static ref A_PATH: ShaclPath = String::from("ex:path");
             static ref A_RELATION_TYPE: RelationOperator = RelationOperator::EqualThanRelation;
             static ref A_TEMPLATE_RELATION: RelationTemplate = RelationTemplate {
@@ -208,9 +208,9 @@ mod tests {
         use crate::tree::relation_operator::RelationOperator;
         use crate::tree::shacl_path::ShaclPath;
         use crate::tree::value::ValueType;
-        use lazy_static::lazy_static;
+        use lazy_static;
 
-        lazy_static! {
+        lazy_static::lazy_static! {
             static ref A_PATH: ShaclPath = String::from("ex:path");
             static ref A_RELATION_TYPE: RelationOperator = RelationOperator::EqualThanRelation;
             static ref A_TEMPLATE_RELATION: RelationTemplate = RelationTemplate {
@@ -264,9 +264,9 @@ mod tests {
         use crate::tree::relation_operator::RelationOperator;
         use crate::tree::shacl_path::ShaclPath;
         use crate::tree::value::ValueType;
-        use lazy_static::lazy_static;
+        use lazy_static;
 
-        lazy_static! {
+        lazy_static::lazy_static! {
             static ref A_PATH: ShaclPath = String::from("ex:path");
             static ref A_RELATION_TYPE: RelationOperator = RelationOperator::EqualThanRelation;
             static ref A_TEMPLATE_RELATION: RelationTemplate = RelationTemplate {

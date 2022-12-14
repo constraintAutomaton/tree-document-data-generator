@@ -4,7 +4,7 @@ use super::value::Value;
 use derive_getters;
 use derive_new;
 
-#[derive(derive_new::new, Clone, derive_getters::Getters, Debug)]
+#[derive(derive_new::new, Clone, PartialEq, Eq, derive_getters::Getters, Debug)]
 /// Represents a relationship between the members across two nodes.
 pub struct Relation {
     /// How many members can be reached when following this relation.
